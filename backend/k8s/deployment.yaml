@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bloodbank-backend
+  namespace: bloodbank
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bloodbank-backend
+  template:
+    metadata:
+      labels:
+        app: bloodbank-backend
+    spec:
+      containers:
+      - name: backend
+        image: IMAGE_PREFIX_PLACEHOLDER/bloodbank-backend:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bloodbank-backend
+  namespace: bloodbank
+spec:
+  selector:
+    app: bloodbank-backend
+  ports:
+  - port: 8080
+    targetPort: 8080
+  type: ClusterIP
